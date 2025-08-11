@@ -2,6 +2,7 @@
 {
     public const int ROWS = 3;
     public const int COLS = 3;
+    public const int CELLS_AMOUNT = 9;
 
     public static string[,] InitializeGrid()
     {
@@ -20,11 +21,11 @@
 
     public static bool TryMakeMove(string input, string[,] grid, string currentPlayer)
     {
-        if (!int.TryParse(input, out int choice) || choice < 1 || choice > 9)
+        if (!int.TryParse(input, out int choice) || choice < 1 || choice > CELLS_AMOUNT)
             return false;
 
-        int row = (choice - 1) / 3;
-        int col = (choice - 1) % 3;
+        int row = (choice - 1) / ROWS;
+        int col = (choice - 1) % COLS;
 
         // Check if the cell is already taken
         if (grid[row, col] == "X" || grid[row, col] == "O")
