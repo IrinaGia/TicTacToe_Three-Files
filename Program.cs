@@ -23,7 +23,7 @@ class Program
 
             moves++;
 
-            if (moves == 9)
+            if (moves == Constants.CELLS_AMOUNT)
             {
                 UI.ShowTitle();
                 UI.PrintGrid(grid);

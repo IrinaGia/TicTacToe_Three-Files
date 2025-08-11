@@ -10,10 +10,10 @@ public static class UI
 
     public static void PrintGrid(string[,] grid)
     {
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < Constants.ROWS; i++)
         {
             Console.WriteLine();
-            for (int j = 0; j < 3; j++)
+            for (int j = 0; j < Constants.COLS; j++)
             {
                 Console.Write(" " + grid[i, j] + " ");
                 if (j < 2) Console.Write("|");
