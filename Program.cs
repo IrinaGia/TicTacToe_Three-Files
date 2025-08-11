@@ -23,7 +23,16 @@ class Program
 
             moves++;
 
-            if (moves == Constants.CELLS_AMOUNT)
+            // Check if current player wins
+            if (Logic.CheckWin(grid, currentPlayer))
+            {
+                UI.ShowTitle();
+                UI.PrintGrid(grid);
+                Console.WriteLine($"\nPlayer {currentPlayer} wins!");
+                break;
+            }
+
+            if (moves == 9)
             {
                 UI.ShowTitle();
                 UI.PrintGrid(grid);
