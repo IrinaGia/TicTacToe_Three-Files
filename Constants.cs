@@ -11,4 +11,9 @@
     public const int FIRST_COL = 0;
     public const int SECOND_COL = 1;
     public const int THIRD_COL = 2;
+
+    public const string PLAYER_X = "X";
+    public const string PLAYER_O = "O";
+
+
 }

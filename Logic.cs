@@ -25,7 +25,7 @@ public static class Logic
         int row = (choice - 1) / Constants.COLS;
         int col = (choice - 1) % Constants.COLS;
 
-        if (grid[row, col] == "X" || grid[row, col] == "O")
+        if (grid[row, col] == Constants.PLAYER_X || grid[row, col] == Constants.PLAYER_O)
             return false;
 
         grid[row, col] = currentPlayer;
@@ -34,7 +34,7 @@ public static class Logic
 
     public static string SwitchPlayer(string currentPlayer)
     {
-        return currentPlayer == "X" ? "O" : "X";
+        return currentPlayer == Constants.PLAYER_X ? Constants.PLAYER_O : Constants.PLAYER_X;
     }
 
     public static bool CheckWin(string[,] grid, string player)

@@ -5,7 +5,7 @@ class Program
     static void Main(string[] args)
     {
         string[,] grid = Logic.InitializeGrid();
-        string currentPlayer = "X";
+        string currentPlayer = Constants.PLAYER_X;
         int moves = 0;
 
         while (true)
