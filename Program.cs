@@ -13,17 +13,28 @@ class Program
             UI.ShowTitle();
             UI.PrintGrid(grid);
 
-            string input = UI.GetPlayerInput(currentPlayer);
-
-            if (!Logic.TryMakeMove(input, grid, currentPlayer))
+            if (currentPlayer == Constants.PLAYER_X)
             {
-                UI.ShowInvalidInputMessage();
-                continue;
+                // Human move
+                string input = UI.GetPlayerInput(currentPlayer);
+
+                if (!Logic.TryMakeMove(input, grid, currentPlayer))
+                {
+                    UI.ShowInvalidInputMessage();
+                    continue;
+                }
+            }
+            else
+            {
+                // Computer move
+                Console.WriteLine($"\nMachine ({currentPlayer}) is playing...");
+               System.Threading.Thread.Sleep(700); // short delay for realism
+                Logic.MakeComputerMove(grid, currentPlayer);
             }
 
             moves++;
 
-            // Check if current player wins
+            // Check win
             if (Logic.CheckWin(grid, currentPlayer))
             {
                 UI.ShowTitle();
@@ -32,7 +43,8 @@ class Program
                 break;
             }
 
-            if (moves == 9)
+            // Check draw
+            if (moves == Constants.CELLS_AMOUNT)
             {
                 UI.ShowTitle();
                 UI.PrintGrid(grid);
@@ -40,6 +52,7 @@ class Program
                 break;
             }
 
+            // Switch turn
             currentPlayer = Logic.SwitchPlayer(currentPlayer);
         }
     }

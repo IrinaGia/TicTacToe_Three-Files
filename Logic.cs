@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualBasic;
+﻿using System;
 
 public static class Logic
 {
@@ -35,6 +35,30 @@ public static class Logic
     public static string SwitchPlayer(string currentPlayer)
     {
         return currentPlayer == Constants.PLAYER_X ? Constants.PLAYER_O : Constants.PLAYER_X;
+    }
+
+    public static void MakeComputerMove(string[,] grid, string computerSymbol)
+    {
+        // var freeCells = new List<(int, int)>();
+        List<(int, int)> freeCells = new List<(int, int)>(); // wanted to try to use this way of defining lists
+
+        for (int i = 0; i < Constants.ROWS; i++)
+        {
+            for (int j = 0; j < Constants.COLS; j++)
+            {
+                if (grid[i, j] != "X" && grid[i, j] != "O")
+                {
+                    freeCells.Add((i, j));
+                }
+            }
+        }
+
+        if (freeCells.Count > 0) // checks is number of free cells > 0 and decided either to make a move or not
+        {
+            Random rand = new Random();
+            var (row, col) = freeCells[rand.Next(freeCells.Count)]; // selects a random free cell
+            grid[row, col] = computerSymbol;
+        }
     }
 
     public static bool CheckWin(string[,] grid, string player)
