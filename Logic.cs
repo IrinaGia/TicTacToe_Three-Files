@@ -37,6 +37,7 @@ public static class Logic
         return currentPlayer == Constants.PLAYER_X ? Constants.PLAYER_O : Constants.PLAYER_X;
     }
 
+
     private static readonly Random rand = new Random();
     public static bool MakeComputerMove(string[,] grid, string computerSymbol)
     {
@@ -53,13 +54,16 @@ public static class Logic
                 }
             }
         }
-        if (freeCells.Count > 0) // checks is number of free cells > 0 and decided either to make a move or not
+
+        // Otherwise, make a random move
+        if (freeCells.Count > 0)
         {
             var (row, col) = freeCells[rand.Next(freeCells.Count)];
             grid[row, col] = computerSymbol;
-            return true; // computer made a move
+            return true;
         }
-        return false; // no move made
+
+        return false; // no move possible
     }
 
     public static bool CheckWin(string[,] grid, string player)

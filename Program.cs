@@ -29,11 +29,11 @@ class Program
                 // Computer move
                 Console.WriteLine($"\nMachine ({currentPlayer}) is playing...");
                System.Threading.Thread.Sleep(700); // short delay for realism
-                Logic.MakeComputerMove(grid, currentPlayer);
 
-                if (!Logic.MakeComputerMove(grid, currentPlayer)) // when grid is full
+                bool moved = Logic.MakeComputerMove(grid, currentPlayer);
+
+                if (!moved) // no free cells left
                 {
-                 
                     Console.WriteLine("No free cells left for the computer to move.");
                     break;
                 }
