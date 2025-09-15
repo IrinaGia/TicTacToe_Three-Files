@@ -30,6 +30,13 @@ class Program
                 Console.WriteLine($"\nMachine ({currentPlayer}) is playing...");
                System.Threading.Thread.Sleep(700); // short delay for realism
                 Logic.MakeComputerMove(grid, currentPlayer);
+
+                if (!Logic.MakeComputerMove(grid, currentPlayer)) // when grid is full
+                {
+                 
+                    Console.WriteLine("No free cells left for the computer to move.");
+                    break;
+                }
             }
 
             moves++;
