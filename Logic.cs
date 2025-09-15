@@ -38,7 +38,7 @@ public static class Logic
     }
 
     private static readonly Random rand = new Random();
-    public static void MakeComputerMove(string[,] grid, string computerSymbol)
+    public static bool MakeComputerMove(string[,] grid, string computerSymbol)
     {
         // var freeCells = new List<(int, int)>();
         List<(int, int)> freeCells = new List<(int, int)>(); // wanted to try to use this way of defining lists
@@ -57,7 +57,9 @@ public static class Logic
         {
             var (row, col) = freeCells[rand.Next(freeCells.Count)];
             grid[row, col] = computerSymbol;
+            return true; // computer made a move
         }
+        return false; // no move made
     }
 
     public static bool CheckWin(string[,] grid, string player)
