@@ -68,26 +68,61 @@ public static class Logic
 
     public static bool CheckWin(string[,] grid, string player)
     {
+        int size = Constants.ROWS; 
+
         // Check rows
-        for (int i = 0; i < Constants.ROWS; i++)
+        for (int i = 0; i < size; i++)
         {
-            if (grid[i, Constants.FIRST_COL] == player && grid[i, Constants.SECOND_COL] == player && grid[i, Constants.THIRD_COL] == player)
-                return true;
+            bool rowWin = true;
+            for (int j = 0; j < size; j++)
+            {
+                if (grid[i, j] != player)
+                {
+                    rowWin = false;
+                    break;
+                }
+            }
+            if (rowWin) return true;
         }
 
         // Check columns
-        for (int j = 0; j < Constants.COLS; j++)
+        for (int j = 0; j < size; j++)
         {
-            if (grid[Constants.FIRST_ROW, j] == player && grid[Constants.SECOND_ROW, j] == player && grid[Constants.THIRD_ROW, j] == player)
-                return true;
+            bool colWin = true;
+            for (int i = 0; i < size; i++)
+            {
+                if (grid[i, j] != player)
+                {
+                    colWin = false;
+                    break;
+                }
+            }
+            if (colWin) return true;
         }
 
-        // Check diagonals
-        if (grid[Constants.FIRST_ROW, Constants.FIRST_COL] == player && grid[Constants.SECOND_ROW, Constants.SECOND_COL] == player && grid[Constants.THIRD_ROW, Constants.THIRD_COL] == player)
-            return true;
+        // Check main diagonal (top-left to bottom-right)
+        bool mainDiagWin = true;
+        for (int i = 0; i < size; i++)
+        {
+            if (grid[i, i] != player)
+            {
+                mainDiagWin = false;
+                break;
+            }
+        }
+        if (mainDiagWin) return true;
 
-        if (grid[Constants.FIRST_ROW, Constants.THIRD_COL] == player && grid[Constants.SECOND_ROW, Constants.SECOND_COL] == player && grid[Constants.THIRD_ROW, Constants.FIRST_COL] == player)
-            return true;
+        // Anti-diagonal (top-right to bottom-left)
+        bool antiDiagWin = true;
+        for (int i = 0; i < size; i++)
+        {
+            if (grid[i, size - 1 - i] != player)
+            {
+                antiDiagWin = false;
+                break;
+            }
+        }
+        if (antiDiagWin) return true;
 
         return false;
     }
