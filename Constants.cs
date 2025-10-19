@@ -15,5 +15,9 @@
     public const string PLAYER_X = "X";
     public const string PLAYER_O = "O";
 
+    // for TryBlockOpponent
+    public const int NOT_FOUND = -1;
+    public const int TWO_IN_A_ROW = 2;
+    public const int ONE_EMPTY_CELL = 1;
 
 }

@@ -39,23 +39,26 @@ public static class Logic
 
 
     private static readonly Random rand = new Random();
+
     public static bool MakeComputerMove(string[,] grid, string computerSymbol)
     {
-        // var freeCells = new List<(int, int)>();
-        List<(int, int)> freeCells = new List<(int, int)>(); // wanted to try to use this way of defining lists
+        string opponent = computerSymbol == Constants.PLAYER_X ? Constants.PLAYER_O : Constants.PLAYER_X;
 
+        // block the opponent from winning
+        if (TryBlockOpponent(grid, opponent, computerSymbol))
+            return true;
+
+        // Otherwise make a random move
+        List<(int, int)> freeCells = new List<(int, int)>();
         for (int i = 0; i < Constants.ROWS; i++)
         {
             for (int j = 0; j < Constants.COLS; j++)
             {
-                if (grid[i, j] != "X" && grid[i, j] != "O")
-                {
+                if (grid[i, j] != Constants.PLAYER_X && grid[i, j] != Constants.PLAYER_O)
                     freeCells.Add((i, j));
-                }
             }
-        }
+        } 
 
-        // Otherwise, make a random move
         if (freeCells.Count > 0)
         {
             var (row, col) = freeCells[rand.Next(freeCells.Count)];
@@ -63,8 +66,102 @@ public static class Logic
             return true;
         }
 
-        return false; // no move possible
+        return false;
     }
+
+    private static bool TryBlockOpponent(string[,] grid, string opponent, string computerSymbol)
+    {
+        // Check rows
+        for (int i = 0; i < Constants.ROWS; i++)
+        {
+            int opponentCount = 0;
+            int emptyCount = 0;
+            int emptyCol = Constants.NOT_FOUND;
+
+            for (int j = 0; j < Constants.COLS; j++)
+            {
+                if (grid[i, j] == opponent) opponentCount++;
+                else if (grid[i, j] != Constants.PLAYER_X && grid[i, j] != Constants.PLAYER_O)
+                {
+                    emptyCount++;
+                    emptyCol = j;
+                }
+            }
+
+            if (opponentCount == Constants.TWO_IN_A_ROW && emptyCount == Constants.ONE_EMPTY_CELL)
+            {
+                grid[i, emptyCol] = computerSymbol;
+                return true;
+            }
+        }
+
+        // Check columns
+        for (int j = 0; j < Constants.COLS; j++)
+        {
+            int opponentCount = 0;
+            int emptyCount = 0;
+            int emptyRow = Constants.NOT_FOUND;
+
+            for (int i = 0; i < Constants.ROWS; i++)
+            {
+                if (grid[i, j] == opponent) opponentCount++;
+                else if (grid[i, j] != Constants.PLAYER_X && grid[i, j] != Constants.PLAYER_O)
+                {
+                    emptyCount++;
+                    emptyRow = i;
+                }
+            }
+
+            if (opponentCount == Constants.TWO_IN_A_ROW && emptyCount == Constants.ONE_EMPTY_CELL)
+            {
+                grid[emptyRow, j] = computerSymbol;
+                return true;
+            }
+        }
+
+        // Check main diagonal
+        int diagOpponent = 0;
+        int diagEmpty = 0;
+        int diagEmptyIndex = Constants.NOT_FOUND;
+
+        for (int i = 0; i < Constants.ROWS; i++)
+        {
+            if (grid[i, i] == opponent) diagOpponent++;
+            else if (grid[i, i] != Constants.PLAYER_X && grid[i, i] != Constants.PLAYER_O)
+            {
+                diagEmpty++;
+                diagEmptyIndex = i;
+            }
+        }
+        if (diagOpponent == Constants.TWO_IN_A_ROW && diagEmpty == Constants.ONE_EMPTY_CELL)
+        {
+            grid[diagEmptyIndex, diagEmptyIndex] = computerSymbol;
+            return true;
+        }
+
+        // Check anti-diagonal
+        diagOpponent = 0;
+        diagEmpty = 0;
+        diagEmptyIndex = Constants.NOT_FOUND;
+
+        for (int i = 0; i < Constants.ROWS; i++)
+        {
+            if (grid[i, Constants.COLS - 1 - i] == opponent) diagOpponent++;
+            else if (grid[i, Constants.COLS - 1 - i] != Constants.PLAYER_X && grid[i, Constants.COLS - 1 - i] != Constants.PLAYER_O)
+            {
+                diagEmpty++;
+                diagEmptyIndex = i;
+            }
+        }
+        if (diagOpponent == Constants.TWO_IN_A_ROW && diagEmpty == Constants.ONE_EMPTY_CELL)
+        {
+            grid[diagEmptyIndex, Constants.COLS - 1 - diagEmptyIndex] = computerSymbol;
+            return true;
+        }
+
+        return false;
+    }
+
 
     public static bool CheckWin(string[,] grid, string player)
     {
